@@ -85,17 +85,19 @@
     background-color: aqua;
   }
   .overlay {
-    width: 250px;
+    width: 200px;
+    max-height: 100%;
 
     position: fixed;
     right: 0;
     z-index: 50;
     margin-right: 50px;
-    padding: 10px;
+    padding: 2px;
+    overflow-y: scroll;
     background: #ffffff;
   }
   p {
-    font-size: medium;
+    font-size: small;
     cursor: pointer;
     padding: 5px;
   }
