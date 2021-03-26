@@ -6,11 +6,17 @@
   export let name: string;
   let map;
   let lat;
-  var layerGroup;
+  let layerGroup;
+  let locationGroup;
+
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("/service-worker.js");
+  }
 
   onMount(async () => {
     map = L.map("map").fitWorld();
     layerGroup = L.layerGroup().addTo(map);
+    locationGroup = L.layerGroup().addTo(map);
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
       maxZoom: 19,
       attribution:
@@ -20,15 +26,11 @@
     map.on("locationfound", onLocationFound);
     map.on("locationerror", onLocationError);
     locate();
-    if ("serviceWorker" in navigator) {
-      navigator.serviceWorker.register("/service-worker.js");
-    }
+    setInterval(locate, 10000);
   });
 
-  function sw() {}
   function locate() {
     map.locate({ setView: true, maxZoom: 16 });
-    setInterval(locate, 3000);
   }
 
   // call locate every 3 seconds... forever
@@ -36,8 +38,10 @@
   function onLocationFound(e) {
     var radius = e.accuracy;
     lat = e;
-
-    L.circle(e.latlng, radius, { color: "red", opacity: 0.5 }).addTo(map);
+    locationGroup.clearLayers();
+    L.circle(e.latlng, radius, { color: "red", opacity: 0.5 }).addTo(
+      locationGroup
+    );
   }
 
   function onLocationError(e) {
