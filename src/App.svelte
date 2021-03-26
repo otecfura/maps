@@ -25,12 +25,12 @@
 
     map.on("locationfound", onLocationFound);
     map.on("locationerror", onLocationError);
-    locate();
-    setInterval(locate, 10000);
+    locate(true);
+    setInterval(() => locate(false), 10000);
   });
 
-  function locate() {
-    map.locate({ setView: true, maxZoom: 16 });
+  function locate(setView) {
+    map.locate({ setView: setView, maxZoom: 16 });
   }
 
   // call locate every 3 seconds... forever
