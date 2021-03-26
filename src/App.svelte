@@ -19,10 +19,16 @@
 
     map.on("locationfound", onLocationFound);
     map.on("locationerror", onLocationError);
-    setInterval(locate, 3000);
+    locate();
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("/service-worker.js");
+    }
   });
+
+  function sw() {}
   function locate() {
     map.locate({ setView: true, maxZoom: 16 });
+    setInterval(locate, 3000);
   }
 
   // call locate every 3 seconds... forever
