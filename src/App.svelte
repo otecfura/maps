@@ -16,10 +16,16 @@
       attribution:
         '&copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap contributors</a>',
     }).addTo(map);
-    map.locate({ setView: true, maxZoom: 16 });
+
     map.on("locationfound", onLocationFound);
     map.on("locationerror", onLocationError);
+    setInterval(locate, 3000);
   });
+  function locate() {
+    map.locate({ setView: true, maxZoom: 16 });
+  }
+
+  // call locate every 3 seconds... forever
 
   function onLocationFound(e) {
     var radius = e.accuracy;
