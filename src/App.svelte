@@ -34,8 +34,6 @@
     map.locate({ setView: setView, maxZoom: 16 });
   }
 
-  // call locate every 3 seconds... forever
-
   function onLocationFound(e) {
     var radius = e.accuracy;
     lat = e;

@@ -4,7 +4,7 @@
 
   const dispatch = createEventDispatcher();
 
-  let size = 128;
+  let size = 136;
   let zmenseni;
 
   let planetArr: Array<Planet> = [];
@@ -104,6 +104,15 @@
     </p>
   {/each}
   <button on:click={() => onDataChange(null)}>clear</button>
+  <p class="small">
+    Created by
+    <a href="https://twitter.com/otecfura" target="_blank"> @otecfura </a>
+  </p>
+  <p class="small">
+    data from <a href="http://michalkasparek.cz/tvorenicko.html" target="_blank"
+      >Michal Kasparek</a
+    >
+  </p>
 </div>
 
 <style>
@@ -126,5 +135,9 @@
     font-size: small;
     cursor: pointer;
     padding: 5px;
+  }
+
+  .small {
+    font-size: x-small;
   }
 </style>
