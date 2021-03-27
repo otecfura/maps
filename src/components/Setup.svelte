@@ -6,10 +6,15 @@
 
   let size = 136;
   let zmenseni;
+  let visible = false;
 
   let planetArr: Array<Planet> = [];
 
   onSizeChange();
+
+  function switchVisible() {
+    visible = !visible;
+  }
 
   function onDataChange(val: Planet) {
     dispatch("changeSize", {
@@ -96,26 +101,30 @@
 </script>
 
 <div class="overlay">
-  <p>Výška (cm)</p>
-  <input type="text" size="10" bind:value={size} on:change={onSizeChange} />
-  {#each planetArr as planet}
-    <p class="size" on:click={() => onDataChange(planet)}>
-      {planet.name} : {planet.measures.distance.toFixed(0)} (m)
+  <p on:click={switchVisible} class="small">show/hide</p>
+  {#if visible}
+    <p>Výška (cm)</p>
+    <input type="text" size="10" bind:value={size} on:change={onSizeChange} />
+    {#each planetArr as planet}
+      <p class="size" on:click={() => onDataChange(planet)}>
+        {planet.name} : {planet.measures.distance.toFixed(0)} (m)
+      </p>
+    {/each}
+    <button on:click={() => onDataChange(null)}>clear</button>
+    <p class="small">
+      Created by
+      <a href="https://twitter.com/otecfura" target="_blank"> @otecfura </a>
     </p>
-  {/each}
-  <button on:click={() => onDataChange(null)}>clear</button>
-  <p class="small">
-    Created by
-    <a href="https://twitter.com/otecfura" target="_blank"> @otecfura </a>
-  </p>
-  <p class="small">
-    There is a <a href="https://github.com/otecfura/maps">repository</a>
-  </p>
-  <p class="small">
-    data from <a href="http://michalkasparek.cz/tvorenicko.html" target="_blank"
-      >Michal Kasparek</a
-    >
-  </p>
+    <p class="small">
+      There is a <a href="https://github.com/otecfura/maps">repository</a>
+    </p>
+    <p class="small">
+      data from <a
+        href="http://michalkasparek.cz/tvorenicko.html"
+        target="_blank">Michal Kasparek</a
+      >
+    </p>
+  {/if}
 </div>
 
 <style>
