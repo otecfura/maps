@@ -96,7 +96,7 @@
 </script>
 
 <div class="overlay">
-  <p>Výška</p>
+  <p>Výška (cm)</p>
   <input type="text" size="10" bind:value={size} on:change={onSizeChange} />
   {#each planetArr as planet}
     <p class="size" on:click={() => onDataChange(planet)}>
