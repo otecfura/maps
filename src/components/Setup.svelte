@@ -30,70 +30,70 @@
         name: "Slunce -> Merkur",
         measures: {
           distance: 57909050000 / zmenseni,
-          width: 0,
+          width: 488000000 / zmenseni,
         },
       },
       {
         name: "Slunce -> Venuse",
         measures: {
           distance: 108208000000 / zmenseni,
-          width: 0,
+          width: 1210300000 / zmenseni,
         },
       },
       {
         name: "Slunce -> Zeme",
         measures: {
           distance: slunceZeme,
-          width: 0,
+          width: 1274200000 / zmenseni,
         },
       },
       {
         name: "Slunce -> Mars",
         measures: {
           distance: 227939200000 / zmenseni,
-          width: 0,
+          width: 677900000 / zmenseni,
         },
       },
       {
         name: "Slunce -> Jupiter",
         measures: {
           distance: 5.2044 * slunceZeme,
-          width: 0,
+          width: 13982200000 / zmenseni,
         },
       },
       {
         name: "Slunce -> Saturn",
         measures: {
           distance: 9.5826 * slunceZeme,
-          width: 0,
+          width: 11646400000 / zmenseni,
         },
       },
       {
         name: "Slunce -> Uran",
         measures: {
           distance: 19.2184 * slunceZeme,
-          width: 0,
+          width: 5072400000 / zmenseni,
         },
       },
       {
         name: "Slunce -> Neptun",
         measures: {
           distance: 30.07 * slunceZeme,
-          width: 0,
+          width: 4924400000 / zmenseni,
         },
       },
       {
         name: "Slunce -> Pluto",
         measures: {
           distance: 49.305 * slunceZeme,
-          width: 0,
+          width: 237660000 / zmenseni,
         },
       },
       {
         name: "Slunce -> Eris",
         measures: {
           distance: 67.864 * slunceZeme,
-          width: 0,
+          width: 232600000 / zmenseni,
         },
       },
     ];
@@ -108,6 +108,9 @@
     {#each planetArr as planet}
       <p class="size" on:click={() => onDataChange(planet)}>
         {planet.name} : {planet.measures.distance.toFixed(0)} (m)
+        <br />
+        <code class="small">šířka: {planet.measures.width.toFixed(2)} (cm)</code
+        >
       </p>
     {/each}
     <button on:click={() => onDataChange(null)}>clear</button>
@@ -132,7 +135,7 @@
     background-color: aqua;
   }
   .overlay {
-    width: 200px;
+    width: 240px;
     max-height: 100%;
 
     position: fixed;
