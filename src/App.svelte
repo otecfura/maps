@@ -37,13 +37,18 @@
     lat = e;
     locationGroup.clearLayers();
     var currentZoom = map.getZoom() * 2;
-    console.log(currentZoom);
     var icon = L.icon({
       iconUrl: "android/android-launchericon-48-48.png",
       iconSize: [currentZoom, currentZoom],
       iconAnchor: [currentZoom / 2, currentZoom / 2],
     });
     L.marker(e.latlng, { icon: icon }).addTo(locationGroup);
+    L.circle(e.latlng, e.accuracy, {
+      color: "red",
+      fillOpacity: 0.1,
+      weight: 1,
+      interactive: false,
+    }).addTo(locationGroup);
   }
 
   function onLocationError(e) {
