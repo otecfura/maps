@@ -2,6 +2,7 @@
   import L from "leaflet";
   import { onMount } from "svelte";
   import Setup from "./components/Setup.svelte";
+  import type { Planet } from "./interfaces/interfaces";
 
   export let name: string;
   let map;
@@ -39,9 +40,11 @@
     var radius = e.accuracy;
     lat = e;
     locationGroup.clearLayers();
-    L.circle(e.latlng, radius, { color: "red", opacity: 0.5 }).addTo(
-      locationGroup
-    );
+    L.circle(e.latlng, radius, {
+      color: "red",
+      opacity: 0.5,
+      interactive: false,
+    }).addTo(locationGroup);
   }
 
   function onLocationError(e) {
@@ -49,8 +52,14 @@
   }
 
   function handleMessage(event) {
-    if (event.detail.text) {
-      L.circle(lat.latlng, event.detail.text).addTo(layerGroup);
+    let planet = event.detail.text as Planet;
+    if (planet) {
+      L.circle(lat.latlng, planet.measures.distance, {
+        fill: false,
+        weight: 5,
+      })
+        .bindPopup(planet.name)
+        .addTo(layerGroup);
     } else {
       layerGroup.clearLayers();
     }

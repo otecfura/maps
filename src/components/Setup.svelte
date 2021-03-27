@@ -1,40 +1,17 @@
 <script type="ts">
   import { createEventDispatcher } from "svelte";
+  import type { Planet } from "../interfaces/interfaces";
 
   const dispatch = createEventDispatcher();
 
   let size = 128;
   let zmenseni;
 
-  let SlunceMerkur = 0;
-  let SlunceVenuse = 0;
-  let SlunceZeme = 0;
-  let ZemeMesic = 0;
-  let SlunceMars = 0;
-  let SlunceJupiter = 0;
-  let SlunceSaturn = 0;
-  let SlunceUran = 0;
-  let SlunceNeptun = 0;
-  let SluncePluto = 0;
-  let SlunceEris = 0;
-
-  let arr = [
-    ["Slunce -> Merkur", SlunceMerkur],
-    ["Slunce -> Venuse", SlunceVenuse],
-    ["Slunce -> Zeme", SlunceZeme],
-    ["Zeme -> Mesic", ZemeMesic],
-    ["Slunce -> Mars", SlunceMars],
-    ["Slunce -> Jupiter", SlunceJupiter],
-    ["Slunce -> Saturn", SlunceSaturn],
-    ["Slunce -> Uran", SlunceUran],
-    ["Slunce -> Neptun", SlunceNeptun],
-    ["Slunce -> Pluto", SluncePluto],
-    ["Slunce -> Eris", SlunceEris],
-  ];
+  let planetArr: Array<Planet> = [];
 
   onSizeChange();
 
-  function onDataChange(val) {
+  function onDataChange(val: Planet) {
     dispatch("changeSize", {
       text: val,
     });
@@ -42,29 +19,78 @@
 
   function onSizeChange() {
     zmenseni = 1392700000 / (size / 100);
-    SlunceMerkur = 57909050000 / zmenseni;
-    SlunceVenuse = 108208000000 / zmenseni;
-    SlunceZeme = 149598023000 / zmenseni;
-    ZemeMesic = 38439900000 / zmenseni;
-    SlunceMars = 227939200000 / zmenseni;
-    SlunceJupiter = 5.2044 * size;
-    SlunceSaturn = 9.5826 * size;
-    SlunceUran = 19.2184 * size;
-    SlunceNeptun = 30.07 * size;
-    SluncePluto = 49.305 * size;
-    SlunceEris = 67.864 * size;
-    arr = [
-      ["Slunce -> Merkur", SlunceMerkur],
-      ["Slunce -> Venuse", SlunceVenuse],
-      ["Slunce -> Zeme", SlunceZeme],
-      ["Zeme -> Mesic", ZemeMesic],
-      ["Slunce -> Mars", SlunceMars],
-      ["Slunce -> Jupiter", SlunceJupiter],
-      ["Slunce -> Saturn", SlunceSaturn],
-      ["Slunce -> Uran", SlunceUran],
-      ["Slunce -> Neptun", SlunceNeptun],
-      ["Slunce -> Pluto", SluncePluto],
-      ["Slunce -> Eris", SlunceEris],
+    let slunceZeme = 149598023000 / zmenseni;
+    planetArr = [
+      {
+        name: "Slunce -> Merkur",
+        measures: {
+          distance: 57909050000 / zmenseni,
+          width: 0,
+        },
+      },
+      {
+        name: "Slunce -> Venuse",
+        measures: {
+          distance: 108208000000 / zmenseni,
+          width: 0,
+        },
+      },
+      {
+        name: "Slunce -> Zeme",
+        measures: {
+          distance: slunceZeme,
+          width: 0,
+        },
+      },
+      {
+        name: "Slunce -> Mars",
+        measures: {
+          distance: 227939200000 / zmenseni,
+          width: 0,
+        },
+      },
+      {
+        name: "Slunce -> Jupiter",
+        measures: {
+          distance: 5.2044 * slunceZeme,
+          width: 0,
+        },
+      },
+      {
+        name: "Slunce -> Saturn",
+        measures: {
+          distance: 9.5826 * slunceZeme,
+          width: 0,
+        },
+      },
+      {
+        name: "Slunce -> Uran",
+        measures: {
+          distance: 19.2184 * slunceZeme,
+          width: 0,
+        },
+      },
+      {
+        name: "Slunce -> Neptun",
+        measures: {
+          distance: 30.07 * slunceZeme,
+          width: 0,
+        },
+      },
+      {
+        name: "Slunce -> Pluto",
+        measures: {
+          distance: 49.305 * slunceZeme,
+          width: 0,
+        },
+      },
+      {
+        name: "Slunce -> Eris",
+        measures: {
+          distance: 67.864 * slunceZeme,
+          width: 0,
+        },
+      },
     ];
   }
 </script>
@@ -72,9 +98,9 @@
 <div class="overlay">
   <p>Výška</p>
   <input type="text" size="10" bind:value={size} on:change={onSizeChange} />
-  {#each arr as cat}
-    <p class="size" on:click={() => onDataChange(cat[1])}>
-      {cat[0]} : {cat[1].toFixed(2)} (m)
+  {#each planetArr as planet}
+    <p class="size" on:click={() => onDataChange(planet)}>
+      {planet.name} : {planet.measures.distance.toFixed(0)} (m)
     </p>
   {/each}
   <button on:click={() => onDataChange(null)}>clear</button>
