@@ -109,6 +109,9 @@
     <a href="https://twitter.com/otecfura" target="_blank"> @otecfura </a>
   </p>
   <p class="small">
+    There is a <a href="https://github.com/otecfura/maps">repository</a>
+  </p>
+  <p class="small">
     data from <a href="http://michalkasparek.cz/tvorenicko.html" target="_blank"
       >Michal Kasparek</a
     >

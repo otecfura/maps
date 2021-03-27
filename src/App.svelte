@@ -4,7 +4,6 @@
   import Setup from "./components/Setup.svelte";
   import type { Planet } from "./interfaces/interfaces";
 
-  export let name: string;
   let map;
   let lat;
   let layerGroup;
@@ -35,14 +34,16 @@
   }
 
   function onLocationFound(e) {
-    var radius = e.accuracy;
     lat = e;
     locationGroup.clearLayers();
-    L.circle(e.latlng, radius, {
-      color: "red",
-      opacity: 0.5,
-      interactive: false,
-    }).addTo(locationGroup);
+    var currentZoom = map.getZoom() * 2;
+    console.log(currentZoom);
+    var icon = L.icon({
+      iconUrl: "android/android-launchericon-48-48.png",
+      iconSize: [currentZoom, currentZoom],
+      iconAnchor: [currentZoom / 2, currentZoom / 2],
+    });
+    L.marker(e.latlng, { icon: icon }).addTo(locationGroup);
   }
 
   function onLocationError(e) {
