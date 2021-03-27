@@ -3,11 +3,13 @@
   import { onMount } from "svelte";
   import Setup from "./components/Setup.svelte";
   import type { Planet } from "./interfaces/interfaces";
+  import { getData, setData } from "./tools/utils";
 
   let map;
   let lat;
   let layerGroup;
   let locationGroup;
+  let arr = getData() || [];
   let firstTime = true;
 
   if ("serviceWorker" in navigator) {
@@ -37,7 +39,7 @@
     if (firstTime) {
       map.locate({ setView: false, maxZoom: 16, watch: true });
       firstTime = !firstTime;
-      console.log(firstTime);
+      addCircle(false);
     }
     lat = e;
     locationGroup.clearLayers();
@@ -60,28 +62,47 @@
     alert(e.message);
   }
 
-  function handleMessage(e) {
-    let latCopy = { ...lat };
-    let planet = e.detail.text as Planet;
-    if (planet) {
-      if (layerGroup.getLayers().length == 0) {
-        var currentZoom = map.getZoom() * 2;
-        var icon = L.icon({
-          iconUrl: "sun.png",
-          iconSize: [currentZoom, currentZoom],
-          iconAnchor: [currentZoom / 2, currentZoom / 2],
-        });
-        L.marker(latCopy.latlng, { icon: icon }).addTo(layerGroup);
-      }
-      L.circle(latCopy.latlng, planet.measures.distance, {
-        fill: false,
-        weight: 5,
-      })
-        .bindPopup(planet.name)
-        .addTo(layerGroup);
+  function handleMessage(message) {
+    let latCopy = { ...lat.latlng };
+    console.log(latCopy);
+    let planet = message.detail.text as Planet;
+    arr.push([latCopy, planet]);
+    setData(arr);
+    addCircle(planet == null);
+  }
+
+  function addCircle(clear) {
+    if (!clear) {
+      arr.forEach((cachedEl) => {
+        if (layerGroup.getLayers().length == 0) {
+          createSun(cachedEl);
+        }
+        createOrbit(cachedEl);
+      });
     } else {
+      arr = [];
+      setData(arr);
       layerGroup.clearLayers();
     }
+  }
+
+  function createOrbit(cachedEl) {
+    L.circle(cachedEl[0], cachedEl[1].measures.distance, {
+      fill: false,
+      weight: 5,
+    })
+      .bindPopup(cachedEl[1].name)
+      .addTo(layerGroup);
+  }
+
+  function createSun(cachedEl) {
+    var currentZoom = map.getZoom() * 2;
+    var icon = L.icon({
+      iconUrl: "sun.png",
+      iconSize: [currentZoom, currentZoom],
+      iconAnchor: [currentZoom / 2, currentZoom / 2],
+    });
+    L.marker(cachedEl[0], { icon: icon }).addTo(layerGroup);
   }
 </script>
 
