@@ -55,10 +55,20 @@
     alert(e.message);
   }
 
-  function handleMessage(event) {
-    let planet = event.detail.text as Planet;
+  function handleMessage(e) {
+    let latCopy = { ...lat };
+    let planet = e.detail.text as Planet;
     if (planet) {
-      L.circle(lat.latlng, planet.measures.distance, {
+      if (layerGroup.getLayers().length == 0) {
+        var currentZoom = map.getZoom() * 2;
+        var icon = L.icon({
+          iconUrl: "sun.png",
+          iconSize: [currentZoom, currentZoom],
+          iconAnchor: [currentZoom / 2, currentZoom / 2],
+        });
+        L.marker(latCopy.latlng, { icon: icon }).addTo(layerGroup);
+      }
+      L.circle(latCopy.latlng, planet.measures.distance, {
         fill: false,
         weight: 5,
       })
