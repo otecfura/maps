@@ -8,6 +8,7 @@
   let lat;
   let layerGroup;
   let locationGroup;
+  let firstTime = true;
 
   if ("serviceWorker" in navigator) {
     navigator.serviceWorker.register("/service-worker.js");
@@ -25,15 +26,19 @@
 
     map.on("locationfound", onLocationFound);
     map.on("locationerror", onLocationError);
-    locate(true);
-    setInterval(() => locate(false), 10000);
+    locate();
   });
 
-  function locate(setView) {
-    map.locate({ setView: setView, maxZoom: 16 });
+  function locate() {
+    map.locate({ setView: true, maxZoom: 16, watch: false });
   }
 
   function onLocationFound(e) {
+    if (firstTime) {
+      map.locate({ setView: false, maxZoom: 16, watch: true });
+      firstTime = !firstTime;
+      console.log(firstTime);
+    }
     lat = e;
     locationGroup.clearLayers();
     var currentZoom = map.getZoom() * 2;
