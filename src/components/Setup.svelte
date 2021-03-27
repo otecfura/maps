@@ -6,7 +6,7 @@
 
   let size = 136;
   let zmenseni;
-  let visible = false;
+  let visible = true;
 
   let planetArr: Array<Planet> = [];
 
