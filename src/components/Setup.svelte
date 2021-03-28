@@ -4,7 +4,7 @@
 
   const dispatch = createEventDispatcher();
 
-  let size = 136;
+  let size = 190;
   let zmenseni;
   let visible = true;
 
